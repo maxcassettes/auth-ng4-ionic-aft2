@@ -23,7 +23,7 @@ items: FirebaseListObservable<any[]>;
   displayName;
   userID; 
   tasks;  
-
+   
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, afDB: AngularFireDatabase, public alertCtrl: AlertController, public actionCtrl: ActionSheetController) {
 
@@ -35,10 +35,12 @@ items: FirebaseListObservable<any[]>;
       //get the username and id
       this.displayName = user.displayName;   
       this.userID = user.uid;
+
       //put them in the database for reference
      firebase.database().ref('/users/' + this.userID).update({displayName: this.displayName}); 
-     this.tasks = afDB.list('/users/' + this.userID + '/tasks');
+     this.tasks = afDB.list('/users/' + this.userID + '/tasks/');
      console.log(this.tasks);
+
     });
   }
 
@@ -71,6 +73,10 @@ addTask() {
     name: 'title', 
     placeholder: 'Task'
   },
+  {
+    name:'notes',
+    placeholder:'Note:'
+  }
   ],
   buttons: [
   {
@@ -83,7 +89,7 @@ addTask() {
     text: 'Save', 
     handler: data => {
       this.tasks.push({
-        title: data.title
+        title: data.title, notes:data.notes
       });
     }
   }
@@ -93,7 +99,7 @@ addTask() {
 }
 
 
-showOptions(taskId, taskTitle) {
+showOptions(taskId, taskTitle, taskNotes) {
 let actionSheet = this.actionCtrl.create({
   title: 'What do you want to do?', 
   buttons: [
@@ -107,7 +113,7 @@ let actionSheet = this.actionCtrl.create({
   {
     text: 'Update task', 
     handler: () => {
-      this.updateTask(taskId, taskTitle);
+      this.updateTask(taskId, taskTitle, taskNotes);
     }
   },
   {
@@ -125,7 +131,7 @@ removeTask(taskId: string) {
   this.tasks.remove(taskId); 
 }
 
-updateTask(taskId, taskTitle){
+updateTask(taskId, taskTitle, taskNotes){
   let prompt = this.alertCtrl.create({
     title: 'Update',
     message: "",
@@ -134,6 +140,11 @@ updateTask(taskId, taskTitle){
         name: 'title',
         placeholder: '',
         value: taskTitle
+      },
+      {
+        name: 'notes',
+        placeholder: '', 
+        value: taskNotes
       },
     ],
     buttons: [
@@ -147,7 +158,8 @@ updateTask(taskId, taskTitle){
         text: 'Save',
         handler: data => {
           this.tasks.update(taskId, {
-            title: data.title
+            title: data.title,
+            notes: data.notes
           });
         }
       }
