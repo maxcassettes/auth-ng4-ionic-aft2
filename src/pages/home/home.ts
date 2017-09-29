@@ -23,7 +23,7 @@ items: FirebaseListObservable<any[]>;
   displayName;
   userID; 
   tasks;  
-
+   
   constructor(public navCtrl: NavController,
     private afAuth: AngularFireAuth, private fb: Facebook, private platform: Platform, afDB: AngularFireDatabase, public alertCtrl: AlertController, public actionCtrl: ActionSheetController) {
 
@@ -35,10 +35,15 @@ items: FirebaseListObservable<any[]>;
       //get the username and id
       this.displayName = user.displayName;   
       this.userID = user.uid;
+
       //put them in the database for reference
      firebase.database().ref('/users/' + this.userID).update({displayName: this.displayName}); 
-     this.tasks = afDB.list('/users/' + this.userID + '/tasks');
+     this.tasks = afDB.list('/users/' + this.userID + '/tasks/');
      console.log(this.tasks);
+
+
+
+
     });
   }
 
@@ -71,6 +76,10 @@ addTask() {
     name: 'title', 
     placeholder: 'Task'
   },
+  {
+    name:'notes',
+    placeholder:'Note:'
+  }
   ],
   buttons: [
   {
@@ -83,7 +92,7 @@ addTask() {
     text: 'Save', 
     handler: data => {
       this.tasks.push({
-        title: data.title
+        title: data.title, notes:data.notes
       });
     }
   }
