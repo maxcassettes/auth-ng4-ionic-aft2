@@ -7,14 +7,15 @@
 </ion-header>
 
 <ion-content>
-    <div style='text-align: center;'>
+    <div class='loginMenu' style='text-align: center;'>
 <button ion-button round outline (click)='signInWithFacebook()'>FB Login</button>
 <button ion-button round outline (click)='signOut()'>Logout</button>
 </div>
 
 
 
-<div class='listArea'>
+<div style='text-align:center;' class='listArea'>
+  <h1> ToDo List </h1>
     <ion-list>
         <ion-item style='text-align: center;' class="text" *ngFor="let task of tasks | async" (click)='showOptions(task.$key, task.title);'>
            {{task.title}}<br>
