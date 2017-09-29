@@ -7,5 +7,11 @@ border-radius: 25px;
 }
 
 .loginMenu {
-padding-top: 5%;
+padding-top: 1%;
+}
+
+.listHeader {
+    background: color($colors, primary);
+    padding: 1px; 
+    color: white;  
 }

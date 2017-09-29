@@ -13,7 +13,9 @@
 </div>
 
 <div style='text-align:center;' class='listArea'>
+  <div class='listHeader'>
   <h1> ToDo List </h1>
+</div>
     <ion-list>
         <ion-item style='text-align: center;' class="text" *ngFor="let task of tasks | async" (click)='showOptions(task.$key, task.title);'>
            <h2>{{task.title}}</h2>
