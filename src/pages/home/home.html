@@ -12,14 +12,12 @@
 <button ion-button round outline (click)='signOut()'>Logout</button>
 </div>
 
-
-
 <div style='text-align:center;' class='listArea'>
   <h1> ToDo List </h1>
     <ion-list>
         <ion-item style='text-align: center;' class="text" *ngFor="let task of tasks | async" (click)='showOptions(task.$key, task.title);'>
-           {{task.title}}<br>
-            Notes: {{task.notes}}
+           <h2>{{task.title}}</h2>
+            <h3><strong>Notes:</strong> {{task.notes}}</h3>
         </ion-item>
     </ion-list>
 </div>
